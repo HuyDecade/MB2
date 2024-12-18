@@ -23,11 +23,18 @@ def register():
 @auth.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    email = data['email']
-    password = data['password']
-    
+    if not data:
+        return jsonify({'error': 'Request body phải là JSON'}), 400
+
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({'error': 'Email và password là bắt buộc'}), 400
+
     user = find_user_by_email(email)
     if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):
         token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256')
         return jsonify({'token': token}), 200
+
     return jsonify({'message': 'Invalid credentials'}), 401

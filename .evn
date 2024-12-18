@@ -1,4 +1,4 @@
-MONGO_URI=mongodb://localhost:27017/fraudDetectionDB
+MONGO_URI=mongodb://localhost:27017/MB_2
 SECRET_KEY=mysecretkey
 FLASK_ENV=development
 FLASK_DEBUG=True
